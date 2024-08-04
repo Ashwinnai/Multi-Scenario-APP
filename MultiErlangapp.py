@@ -5,9 +5,13 @@ import plotly.graph_objects as go
 from pyworkforce.queuing import MultiErlangC
 
 def main():
+    # Set up the page configuration
     st.set_page_config(page_title="Staffing Calculator", layout="wide")
-    st.title("Staffing Calculator Multiple Scenario Tester by Ashwin Nair")
 
+    # Update the title "
+    st.title("Staffing Calculator Multiple Scenario Tester") 
+        # Adding a new section in the sidebar to indicate the creator
+    st.sidebar.markdown("### Made by Ashwin Nair")  # Add this line to show creator's note
     # Collapsible sidebar for sensitivity parameters
     with st.sidebar.expander("User Inputs", expanded=False):
         acceptable_waiting_times = st.text_input("Acceptable Waiting Time (seconds, comma-separated)", "10,20,30").split(',')
@@ -36,6 +40,8 @@ def main():
             average_handling_times = [float(aht) for aht in average_handling_times if aht.strip().replace('.', '', 1).isdigit()]
         else:
             average_handling_times = []
+
+    
 
     # Input field for calls per interval for the whole week
     st.header("Calls Offered per 30-minute Interval (Sunday to Saturday)")
@@ -105,7 +111,22 @@ def main():
                                         progress_bar.progress(min(current_progress / total_combinations, 1.0))
 
                                 staffing_df = pd.DataFrame(staffing_results)
-                                staffing_df = staffing_df[["Day", "Interval", "AWT", "Shrinkage", "Max Occupancy", "Average AHT", "Service Level Target", "raw_positions", "positions", "service_level", "occupancy", "waiting_probability"]]
+                                
+                                # Check for missing columns and add them if needed
+                                required_columns = [
+                                    "Day", "Interval", "AWT", "Shrinkage", "Max Occupancy",
+                                    "Average AHT", "Service Level Target", "raw_positions", "positions",
+                                    "service_level", "occupancy", "waiting_probability"
+                                ]
+
+                                # Adding missing columns with default values
+                                for column in required_columns:
+                                    if column not in staffing_df.columns:
+                                        staffing_df[column] = 0
+
+                                # Filter only the required columns
+                                staffing_df = staffing_df[required_columns]
+
                                 st.write(f"Staffing Requirements for AWT: {awt}s, Shrinkage: {shrinkage}%, Max Occupancy: {max_occupancy}%, Average AHT: {avg_aht}s, Service Level Target: {target}%")
                                 st.dataframe(staffing_df)
 
@@ -184,7 +205,22 @@ def main():
                                     progress_bar.progress(min(current_progress / total_combinations, 1.0))
 
                             staffing_df = pd.DataFrame(staffing_results)
-                            staffing_df = staffing_df[["Day", "Interval", "AWT", "Shrinkage", "Max Occupancy", "Average AHT", "Service Level Target", "raw_positions", "positions", "service_level", "occupancy", "waiting_probability"]]
+
+                            # Check for missing columns and add them if needed
+                            required_columns = [
+                                "Day", "Interval", "AWT", "Shrinkage", "Max Occupancy",
+                                "Average AHT", "Service Level Target", "raw_positions", "positions",
+                                "service_level", "occupancy", "waiting_probability"
+                            ]
+
+                            # Adding missing columns with default values
+                            for column in required_columns:
+                                if column not in staffing_df.columns:
+                                    staffing_df[column] = 0
+
+                            # Filter only the required columns
+                            staffing_df = staffing_df[required_columns]
+
                             st.write(f"Staffing Requirements for AWT: {awt}s, Shrinkage: {shrinkage}%, Max Occupancy: {max_occupancy}%, Average AHT: {aht}s, Service Level Target: {target}%")
                             st.dataframe(staffing_df)
 
