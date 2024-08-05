@@ -8,10 +8,12 @@ def main():
     # Set up the page configuration
     st.set_page_config(page_title="Staffing Calculator", layout="wide")
 
-    # Update the title "
-    st.title("Staffing Calculator Multiple Scenario Tester") 
-        # Adding a new section in the sidebar to indicate the creator
-    st.sidebar.markdown("### Made by Ashwin Nair")  # Add this line to show creator's note
+    # Update the title
+    st.title("Staffing Calculator Multiple Scenario Tester")
+
+    # Adding a new section in the sidebar to indicate the creator
+    st.sidebar.markdown("### Made by Ashwin Nair")
+
     # Collapsible sidebar for sensitivity parameters
     with st.sidebar.expander("User Inputs", expanded=False):
         acceptable_waiting_times = st.text_input("Acceptable Waiting Time (seconds, comma-separated)", "10,20,30").split(',')
@@ -41,7 +43,41 @@ def main():
         else:
             average_handling_times = []
 
-    
+    # User Guide in the Sidebar
+    with st.sidebar.expander("📘 How to Use the App", expanded=False):
+        st.markdown("""
+        ## Welcome to the Staffing Calculator!
+        This tool is designed to help you determine staffing requirements for call centers based on various scenarios. Here’s a step-by-step guide on how to use the app effectively:
+
+        ### Step 1: Enter User Inputs
+        - **Acceptable Waiting Time:** Input acceptable waiting times in seconds, separated by commas. E.g., `10,20,30`.
+        - **Shrinkage:** Enter shrinkage percentages separated by commas. E.g., `20,30,40`.
+        - **Max Occupancy:** Provide maximum occupancy percentages separated by commas. E.g., `70,80,90`.
+        - **Service Level Targets:** Set service level targets as percentages separated by commas. E.g., `80,85,90`.
+        - **Working Hours per Day:** Specify the number of working hours per day.
+        - **Working Days per Week:** Specify the number of working days per week.
+
+        ### Step 2: Choose AHT Input Method
+        - Select **"Multiple AHT values for all intervals and days"** if you wish to input AHT for all intervals and days at once.
+        - Select **"AHT table at interval level for each day"** if you prefer to input AHT data per interval for each day individually.
+
+        ### Step 3: Input Calls and AHT Data
+        - **Calls Offered:** Enter the number of calls offered for each 30-minute interval from Sunday to Saturday.
+        - **Average Handling Time (AHT):** If you chose the AHT table method, input AHT for each 30-minute interval for each day.
+
+        ### Step 4: Calculate Staffing Requirements
+        - Press the **"Calculate Staffing Requirements"** button to begin the calculation process. The app will compute staffing needs based on the inputs provided.
+
+        ### Step 5: Analyze the Results
+        - View detailed staffing requirements and total staffing needs displayed in tables.
+        - Explore interactive heatmaps and bar charts to visualize staffing levels across different days and intervals.
+
+        ### Tips:
+        - Make sure to input realistic values for waiting times, shrinkage, and occupancy to get accurate staffing calculations.
+        - Use the graphs and tables to identify trends and optimize your call center's efficiency.
+
+        Feel free to experiment with different scenarios and adjust inputs to see how they affect staffing requirements. If you have any questions or feedback, please contact [Ashwin Nair](mailto:your-email@example.com).
+        """)
 
     # Input field for calls per interval for the whole week
     st.header("Calls Offered per 30-minute Interval (Sunday to Saturday)")
